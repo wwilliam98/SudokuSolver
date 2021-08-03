@@ -2,14 +2,15 @@ const express = require ('express');
 const app = express();
 const mongoose = require("mongoose");
 const Counter = require("./models/counter");
+const config = require('./config');
 
 app.set ('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json()); 
 
-var connectionString = config.mongoKey;
+var connectionString = config.config.mongoKey;
 mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
     .then((result) => app.listen(3000))
     .catch((err) => console.log(err));

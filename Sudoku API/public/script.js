@@ -1,4 +1,4 @@
-const test_board1 = [
+const test_board1 = [ 
     [0, 0, 0,   0, 0, 0,   0, 0, 0],
     [0, 0, 0,   0, 0, 0,   0, 0, 0],
     [8, 0, 0,   0, 0, 0,   0, 0, 0],
@@ -10,7 +10,7 @@ const test_board1 = [
     [0, 1, 0,   0, 0, 5,   0, 0, 0],
     [0, 0, 0,   0, 0, 0,   0, 0, 0],
     [0, 5, 0,   0, 0, 0,   1, 0, 0]
-]
+];
 
 const test_board2 = [
     [8, 2, 7,   1, 5, 4,   3, 9, 6],
@@ -24,9 +24,9 @@ const test_board2 = [
     [7, 8, 6,   2, 3, 5,   9, 1, 4],
     [1, 5, 4,   7, 9, 6,   8, 2, 3],
     [2, 3, 9,   8, 4, 0,   5, 0, 0]
-]
+];
 
-//Set Board
+//Set Board 
 var Board = new Object();
 Board.board = [[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]];
 
@@ -77,7 +77,7 @@ function setup(){
   var rowSquare = document.createElement('div');
   rowSquare.className = "Square3x3";
   container.appendChild(rowSquare);
-}
+} 
 ///////////////////////////////////////////////////////
 
 //Put input to board and get http post and show the answer on board
