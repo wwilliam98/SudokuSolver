@@ -1,4 +1,4 @@
-const test_board1 = [ 
+const test_board1 = [
     [0, 0, 0,   0, 0, 0,   0, 0, 0],
     [0, 0, 0,   0, 0, 0,   0, 0, 0],
     [8, 0, 0,   0, 0, 0,   0, 0, 0],
@@ -10,7 +10,7 @@ const test_board1 = [
     [0, 1, 0,   0, 0, 5,   0, 0, 0],
     [0, 0, 0,   0, 0, 0,   0, 0, 0],
     [0, 5, 0,   0, 0, 0,   1, 0, 0]
-];
+]
 
 const test_board2 = [
     [8, 2, 7,   1, 5, 4,   3, 9, 6],
@@ -24,17 +24,15 @@ const test_board2 = [
     [7, 8, 6,   2, 3, 5,   9, 1, 4],
     [1, 5, 4,   7, 9, 6,   8, 2, 3],
     [2, 3, 9,   8, 4, 0,   5, 0, 0]
-];
+]
 
-//Set Board 
+//Set Board
 var Board = new Object();
 Board.board = [[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]];
 
-//Set HTML input
 function setup(){
   var container = document.getElementById('container');
 
-  ///////////////////////////////////////////////////Board Setup
   for(let i = 0; i < 9; i++){
     //For the 3x3 Row square border
     if (i % 3 === 0){
@@ -62,6 +60,11 @@ function setup(){
         row.appendChild(colSquare)
       }
 
+      // box.onclick = function(){
+      //   const val = document.getElementById(box).value
+      //   setBoard(this.id);
+      // }
+
       //Put col in container
       row.appendChild(box);
     }
@@ -77,10 +80,15 @@ function setup(){
   var rowSquare = document.createElement('div');
   rowSquare.className = "Square3x3";
   container.appendChild(rowSquare);
-} 
-///////////////////////////////////////////////////////
+}
 
-//Put input to board and get http post and show the answer on board
+//Print clicked row, col
+function clicked(ID){
+  var box = document.getElementById(ID);
+  document.write(box.row, box.col);
+}
+
+//Put input to board
 function setInputToBoard(){
   for (var i = 0; i < 9; i++){
     for (var j = 0; j < 9; j++){
@@ -88,36 +96,9 @@ function setInputToBoard(){
       Board.board[i][j] = input;
       }
   }
-
-  if ((check_valid_board() === true) && (isSolved() === false)){
-    fetch('/solve', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(Board.board)
-    })
-    .then(response => {
-      return response.json();
-    })
-    .then(solvedSudoku => {
-      draw_board(solvedSudoku[0]);
-      console.log(solvedSudoku[1]);
-      document.getElementById("SolvedCounterDisplay").innerHTML = "Solved: " + solvedSudoku[1];
-    })
-  }
-  else if(isSolved() === true){
-    alert("Board Has Been Solved")
-  }
-  else{
-    alert("Invalid Input on Board")
-  }
-  // console.log(solveCounter);
-
 }
-///////////////////////////////////////////////////////
 
-//Reset Board
+//reset
 function resetBoard(){
   Board.board = [[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]];
   for (var i = 0; i < 9; i++){
@@ -126,16 +107,18 @@ function resetBoard(){
     }
   }
 }
-/////////////////////////////////////////////////////////
 
 //Show answer on board
-function draw_board(arr){
+function draw_board(){
   for (var i = 0; i < 9; i++){
     for (var j = 0; j < 9; j++){
-      document.getElementById(i + "-" + j).value = arr[i][j]
+      if (Board.board[i][j] !== 0){
+        document.getElementById(i + "-" + j).value = Board.board[i][j]
+      }
     }
   }
 }
+
 
 function check_valid_board(){ //return boolean
   //check row
@@ -189,7 +172,6 @@ function check_valid_board(){ //return boolean
     return true;
   }
 
-  //Validate Input
   function validate_input(){
     for (var r = 0; r < 9; r++){
       for (var c = 0; c < 9; c++){
@@ -201,10 +183,11 @@ function check_valid_board(){ //return boolean
     return true;
   }
 
-  //validate the input, col & row & 3x3 grid
+  //valid the input, col & row & 3x3 grid
   if (validate_input() === false){
     return false;
   }
+
   for (var i = 0; i < Board.board.length; i++ ){
     if ((isRowValid(Board.board[i])) === false){
       return false;
@@ -221,17 +204,7 @@ function check_valid_board(){ //return boolean
     }
   }
   return true;
-}
 
-function isSolved() {
-  for (var i = 0; i < Board.board.length; i ++){
-    for (var j = 0; j < Board.board[0].length; j ++){
-      if (Board.board[i][j] === 0){
-        return false;
-      }
-    }
-  }
-  return true;
 }
 
 function find_empty(){ //returning tuple row, col if not return Boolean
@@ -245,7 +218,6 @@ function find_empty(){ //returning tuple row, col if not return Boolean
   return false;
 }
 
-//confirm if num is valid in position
 function valid_num(position, val){
   r = position[0];
   c = position[1];
@@ -278,7 +250,6 @@ function valid_num(position, val){
   return true;
 }
 
-//Solve game
 function solve(){
   var find = find_empty();
   if (find === false){
@@ -301,15 +272,15 @@ function solve(){
   return false
 }
 
-
-// function game(){
-//   setInputToBoard();
-//   //check game solution
-//   if (check_valid_board() === true){
-//     solve();
-//     draw_board();
-//   }
-//   else{
-//     window.alert("Unsolvable");
-//   }
-// }
+function game(){
+  setInputToBoard();
+  console.log(Board.board)
+  //check game solution
+  if (check_valid_board() === true){
+    solve();
+    draw_board();
+  }
+  else{
+    window.alert("Unsolvable");
+  }
+}
