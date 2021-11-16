@@ -2,7 +2,7 @@ const express = require ('express');
 const app = express();
 const mongoose = require("mongoose");
 const config = require('./config');
-const authRoutes = require ('../Sudoku API/routes/authRoutes');
+const authRoutes = require ('./routes/authRoutes');
 const cookieParser = require ('cookie-parser');
 const {requireAuth, checkUser} = require ('./midleware/authMiddleware');
 const jwt = require ('jsonwebtoken');
@@ -10,7 +10,7 @@ const User = require ('./models/user');
 
 app.set ('view engine', 'ejs');
 app.use(express.static('public'));
-app.use (cookieParser());
+app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
